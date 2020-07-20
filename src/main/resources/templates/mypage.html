@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>mypage</title>
+    </head>
+    <body>
+        <h1>あなたのページ</h1>
+        <p th:text="'こんにちは、 ' + ${name} + 'さん'" />
+        <form th:action="@{/logout}" method="post">
+          <button type="submit">ログアウト</button>
+        </form>
+    </body>
+</html>

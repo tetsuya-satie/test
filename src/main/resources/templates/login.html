@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>login</title>
+    </head>
+    <body>
+      <form th:action="@{/login}" method="post">
+        <input type="text" id="id" name="username" placeholder="ID" />
+        <input type="password" id="password" name="password" placeholder="Password" />
+        <button type="submit">ログイン</button>
+      </form>
+      <p th:if="${param.error}">ログインに失敗しました</p>
+      <p th:if="${param.logout}">ログアウトしました</p>
+    </body>
+</html>
