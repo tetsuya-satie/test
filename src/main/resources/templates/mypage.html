@@ -7,6 +7,16 @@
     <body>
         <h1>あなたのページ</h1>
         <p th:text="'こんにちは、 ' + ${name} + 'さん'" />
+        <p>あなたの権限は、</p>
+        <tr th:each="authority : ${authorities}">
+          <td th:text="${authority}"></td>
+        </tr>
+        <p>です</p>
+        <div th:if="${isADMIN}">
+          <form th:action="@{/registration}" method="get">
+            <button type="submit">新規ユーザ登録</button>
+          </form>
+        </div>
         <form th:action="@{/logout}" method="post">
           <button type="submit">ログアウト</button>
         </form>

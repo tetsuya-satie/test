@@ -19,6 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
+				.antMatchers("/registration").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -27,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl("/mypage")
 				.and()
 			.logout()
-				.permitAll();
+				.permitAll()
+			.and()
+        .exceptionHandling().accessDeniedPage("/403");
 	}
 
   @Autowired
@@ -36,13 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(service);
-    /*
-    PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    auth.inMemoryAuthentication()
-        .withUser("user").password(encoder.encode("password")).roles("USER")
-        .and()
-        .withUser("admin").password(encoder.encode("adminpassword")).roles("ADMIN");
-        */
   }
 
   @Override

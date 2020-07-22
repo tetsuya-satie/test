@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>ユーザ登録</title>
+    </head>
+    <body>
+        <h1>新規ユーザ登録</h1>
+        <p th:text="${sof}"></p>
+        <p th:text="${msg}"></p>
+        <form action="#" th:action="@{/registration}" th:object="${registrationForm}" method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" th:field="*{name}" /></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" th:field="*{password1}" /></td>
+                    <td th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}">Password Error</td>
+                </tr>
+                <tr>
+                    <td>Password(確認):</td>
+                    <td><input type="password" th:field="*{password2}" /></td>
+                    <td th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">Password Error</td>
+                </tr>
+                <tr th:each="item : ${checkAuthorities}">
+                    <td><input type="checkbox" th:value="${item.key}" th:field="*{authorities}" /></td>
+                    <td><label th:for="${#ids.prev('authorities')}" th:text="${item.value}" /></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+        <form th:action="@{/mypage}" method="get">
+          <button type="submit">マイページに戻る</button>
+        </form>
+    </body>
+</html>
