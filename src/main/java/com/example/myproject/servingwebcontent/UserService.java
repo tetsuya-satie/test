@@ -1,15 +1,18 @@
 package com.example.myproject.servingwebcontent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.example.myproject.registrationform.RegistrationForm;
 import org.apache.commons.lang3.StringUtils;
-
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.myproject.form.DeleteForm;
+import com.example.myproject.form.RegistrationForm;
 
 
 @Service
@@ -57,5 +60,23 @@ public class UserService{
     jdbcTemplate.update(user_insert_Sql, form.getName(), password);
     result.setRegistration_success(true);
     return result;
+  }
+
+  private final String user_delete_Sql = "delete from user where id = ?";
+  private final String user_role_delete_Sql = "delete from user_role where user_id = ?";
+
+  public DeleteResult deleteSubmit(DeleteForm form) {
+	  DeleteResult result = new DeleteResult();
+	  if(jdbcTemplate.queryForObject(countSql,Integer.class,form.getName()) == 0){
+	      result.setDelete_success(false);
+	      result.setErr_msg("該当ユーザは存在しません");
+	      return result;
+	  }
+	  /*ユーザ削除処理(userとuser_roleテーブル)*/
+	  /*userテーブル*/
+	  jdbcTemplate.update(user_delete_Sql, form.getName());
+	  jdbcTemplate.update(user_role_delete_Sql, form.getName());
+	  result.setDelete_success(true);
+	  return result;
   }
 }

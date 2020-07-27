@@ -1,19 +1,21 @@
 package com.example.myproject.servingwebcontent;
 
-import com.example.myproject.registrationform.RegistrationForm;
-
-import java.util.*;
+import java.util.Map;
 
 import javax.validation.Valid;
-import org.springframework.validation.BindingResult;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.myproject.form.DeleteForm;
+import com.example.myproject.form.RegistrationForm;
 
 
 @Controller
@@ -71,6 +73,29 @@ public class UserController {
 			model.addAttribute("sof","登録成功");
 		}
 		return "registration";
+	}
+
+	@GetMapping("/delete")
+	public String delete(DeleteForm deleteForm) {
+		return "delete";
+	}
+
+	@PostMapping("/delete")
+	public String deleteSubmit(@Valid DeleteForm deleteForm, BindingResult bindingResult, Model model) {
+		//入力チェックによるエラー
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("sof","削除失敗");
+			return "delete";
+		}
+		DeleteResult result = userService.deleteSubmit(deleteForm);
+		if(result.isDelete_success()) {
+			model.addAttribute("sof", "削除成功");
+		}
+		else {
+			model.addAttribute("sof", "削除失敗");
+			model.addAttribute("msg", result.getErr_msg());
+		}
+		return "delete";
 	}
 
 	@GetMapping("/403")

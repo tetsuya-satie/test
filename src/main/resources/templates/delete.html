@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>ユーザ削除</title>
+    </head>
+    <body>
+        <h1>ユーザ削除</h1>
+        <p th:text="${sof}"></p>
+        <p th:text="${msg}"></p>
+        <form action="#" th:action="@{/delete}" th:object="${deleteForm}" method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" th:field="*{name}" /></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">削除</button></td>
+                </tr>
+            </table>
+        </form>
+        <form th:action="@{/mypage}" method="get">
+          <button type="submit">マイページに戻る</button>
+        </form>
+    </body>
+</html>

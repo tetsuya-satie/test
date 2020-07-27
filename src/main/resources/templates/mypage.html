@@ -17,6 +17,11 @@
             <button type="submit">新規ユーザ登録</button>
           </form>
         </div>
+        <div th:if="${isADMIN}">
+          <form th:action="@{/delete}" method="get">
+            <button type="submit">ユーザ削除</button>
+          </form>
+        </div>
         <form th:action="@{/logout}" method="post">
           <button type="submit">ログアウト</button>
         </form>

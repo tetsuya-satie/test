@@ -1,16 +1,10 @@
 package com.example.myproject.servingwebcontent;
 
-public class RegistrationResult{
-  private boolean registration_success;
+public class DeleteResult{
+  private boolean delete_success;
   private String err_msg;
 
-  public boolean getRegistration_success(){
-    return this.registration_success;
-  }
 
-  public void setRegistration_success(boolean tf){
-    this.registration_success = tf;
-  }
 
   public String getErr_msg(){
     return this.err_msg;
@@ -23,4 +17,13 @@ public class RegistrationResult{
   public void addMessage(String msg){
     this.err_msg += msg;
   }
+
+  public boolean isDelete_success() {
+	return delete_success;
+  }
+
+  public void setDelete_success(boolean delete_success) {
+	this.delete_success = delete_success;
+  }
+
 }
