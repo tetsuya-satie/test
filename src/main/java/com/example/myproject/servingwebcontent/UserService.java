@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,8 +66,15 @@ public class UserService{
   private final String user_delete_Sql = "delete from user where id = ?";
   private final String user_role_delete_Sql = "delete from user_role where user_id = ?";
 
-  public DeleteResult deleteSubmit(DeleteForm form) {
+  public DeleteResult deleteSubmit(DeleteForm form, User loginUser) {
 	  DeleteResult result = new DeleteResult();
+	  /*自分自身は削除できない*/
+	  if(StringUtils.equals(form.getName(), loginUser.getUsername())) {
+		  result.setDelete_success(false);
+	      result.setErr_msg("自分自身を削除することはできません");
+	      return result;
+	  }
+	  /*存在しないユーザ*/
 	  if(jdbcTemplate.queryForObject(countSql,Integer.class,form.getName()) == 0){
 	      result.setDelete_success(false);
 	      result.setErr_msg("該当ユーザは存在しません");

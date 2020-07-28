@@ -81,13 +81,14 @@ public class UserController {
 	}
 
 	@PostMapping("/delete")
-	public String deleteSubmit(@Valid DeleteForm deleteForm, BindingResult bindingResult, Model model) {
+	public String deleteSubmit(@Valid DeleteForm deleteForm, BindingResult bindingResult,
+			@AuthenticationPrincipal User user, Model model) {
 		//入力チェックによるエラー
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sof","削除失敗");
 			return "delete";
 		}
-		DeleteResult result = userService.deleteSubmit(deleteForm);
+		DeleteResult result = userService.deleteSubmit(deleteForm,user);
 		if(result.isDelete_success()) {
 			model.addAttribute("sof", "削除成功");
 		}
