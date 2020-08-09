@@ -1,16 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>login</title>
-    </head>
-    <body>
-      <form th:action="@{/login}" method="post">
-        <input type="text" id="id" name="username" placeholder="ID" />
-        <input type="password" id="password" name="password" placeholder="Password" />
-        <button type="submit">ログイン</button>
-      </form>
-      <p th:if="${param.error}">ログインに失敗しました</p>
-      <p th:if="${param.logout}">ログアウトしました</p>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>login</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+	<div class="login_member text-center">
+		<form th:action="@{/login}" method="post">
+			<img th:src="@{/img/login.png}" width=72 height=72 class="mb-3">
+			<h3 class="h3 mb-3">ログイン</h3>
+			<label for="id" class="sr-only">id</label> <input type="text" id="id"
+				name="username" class="form-control mb-1" placeholder="ID" required>
+			<label for="password" class="sr-only">password</label> <input
+				type="password" id="password" name="password"
+				class="form-control mb-4" placeholder="Password" required>
+			<button type="submit" class="btn btn-primary btn-block mb-3">ログイン</button>
+		</form>
+		<p th:if="${param.error}" class="alert alert-danger">ログインに失敗しました</p>
+		<p th:if="${param.logout}" class="alert alert-success">ログアウトしました</p>
+	</div>
+
+	<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
 </html>
