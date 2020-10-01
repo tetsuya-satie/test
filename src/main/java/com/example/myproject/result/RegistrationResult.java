@@ -1,4 +1,4 @@
-package com.example.myproject.servingwebcontent;
+package com.example.myproject.result;
 
 public class RegistrationResult{
   private boolean registration_success;

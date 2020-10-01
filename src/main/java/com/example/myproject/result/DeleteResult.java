@@ -1,4 +1,4 @@
-package com.example.myproject.servingwebcontent;
+package com.example.myproject.result;
 
 public class DeleteResult{
   private boolean delete_success;

@@ -1,5 +1,6 @@
 package com.example.myproject.servingwebcontent;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -14,8 +15,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.myproject.data.UserInfo;
 import com.example.myproject.form.DeleteForm;
 import com.example.myproject.form.RegistrationForm;
+import com.example.myproject.form.SearchForm;
+import com.example.myproject.result.DeleteResult;
+import com.example.myproject.result.RegistrationResult;
 
 
 @Controller
@@ -43,7 +48,7 @@ public class UserController {
 
 	@GetMapping("/registration")
 	public String registration(RegistrationForm registrationForm, Model model){
-		Map<String,String> roles = userService.registration();
+		Map<String,String> roles = userService.initAuthorities();
 		model.addAttribute("checkAuthorities", roles);
 		return "registration";
 	}
@@ -51,7 +56,7 @@ public class UserController {
 	@PostMapping("/registration")
 	public String registrationSubmit(@Valid RegistrationForm registrationForm, BindingResult bindingResult, Model model){
 		System.out.println(registrationForm);
-		Map<String,String> roles = userService.registration();
+		Map<String,String> roles = userService.initAuthorities();
 		model.addAttribute("checkAuthorities", roles);
 
 		//入力チェックによるエラー
@@ -97,6 +102,24 @@ public class UserController {
 			model.addAttribute("msg", result.getErr_msg());
 		}
 		return "delete";
+	}
+
+	@GetMapping("/search")
+	public String search(SearchForm searchForm, Model model) {
+		System.out.println("HereHere");
+		Map<String, String> authorities = userService.initAuthorities();
+		model.addAttribute("checkAuthorities", authorities);
+		return "search";
+	}
+
+	@PostMapping("/search")
+	public String searchSubmit(SearchForm searchForm, Model model) {
+		List<UserInfo> resultUsers = userService.search(searchForm).getUsers();
+		Map<String, String> authorities = userService.initAuthorities();
+		model.addAttribute("users", resultUsers);
+		model.addAttribute("search_called", true);
+		model.addAttribute("checkAuthorities", authorities);
+		return "search";
 	}
 
 	@GetMapping("/403")

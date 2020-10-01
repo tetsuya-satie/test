@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>ユーザ検索</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<style>
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<form action="#" th:action="@{/search}" th:object="${searchForm}"
+			method="post">
+			<h3>ユーザ検索</h3>
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><input type="text" th:field="*{name}" /></td>
+					<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
+						Error</td>
+				</tr>
+				<tr th:each="item : ${checkAuthorities}">
+					<td><input type="checkbox" th:value="${item.key}"
+						th:field="*{authorities}" /></td>
+					<td><label th:for="${#ids.prev('authorities')}"
+						th:text="${item.value}" /></td>
+				</tr>
+				<tr>
+					<td><button type="submit" class="btn btn-primary">検索</button></td>
+				</tr>
+			</table>
+		</form>
+		<form th:action="@{/mypage}" method="get">
+			<button type="submit" class="btn btn-secondary">マイページに戻る</button>
+		</form>
+		<div th:if="${search_called}">
+			<h3>検索結果</h3>
+			<p th:text="${msg}"></p>
+			<table class="table table-sm">
+				<thead class="thead-dark">
+					<tr>
+						<th>No</th>
+						<th>ユーザid</th>
+						<th>権限</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${users}">
+						<th th:text="${user.no}"></th>
+						<td th:text="${user.id}"></td>
+						<td th:text="${user.authorities}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
